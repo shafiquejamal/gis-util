@@ -33,7 +33,7 @@ class TabulatorUTest extends FlatSpecLike with Matchers {
       Person("4_250_1_1", GPSCoordinates(Lat(39.11354), Lng(-94.62680))),
       Person("5_250_1_1", GPSCoordinates(Lat(39.11294), Lng(-94.62605))),
       Person("6_250_0_1", GPSCoordinates(Lat(39.11295), Lng(-94.62600))),
-      Person("7_250_0_0", GPSCoordinates(Lat(39.11136), Lng(-94.62380))),
+      Person("7_250_0_0", GPSCoordinates(Lat(39.11136), Lng(-94.62380)))
     )
   }
   
@@ -41,7 +41,7 @@ class TabulatorUTest extends FlatSpecLike with Matchers {
   new Fixture {
     val expected = Seq(
       SurveyAreaCharacteristics(surveyArea1, Seq(CatchmentArea(0.25, 4), CatchmentArea(0.5, 6))),
-      SurveyAreaCharacteristics(surveyArea2, Seq(CatchmentArea(0.25, 3), CatchmentArea(0.5, 4))),
+      SurveyAreaCharacteristics(surveyArea2, Seq(CatchmentArea(0.25, 3), CatchmentArea(0.5, 4)))
     )
     val actual = CatchmentAreaCalculator.calculatePopulations(persons, surveyAreas, Seq(0.25, 0.5))
     
