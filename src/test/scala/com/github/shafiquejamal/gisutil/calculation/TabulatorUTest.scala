@@ -33,7 +33,7 @@ class TabulatorUTest extends FlatSpecLike with Matchers {
       Person("4_250_1_1", GPSCoordinates(Lat(39.11354), Lng(-94.62680))),
       Person("5_250_1_1", GPSCoordinates(Lat(39.11294), Lng(-94.62605))),
       Person("6_250_0_1", GPSCoordinates(Lat(39.11295), Lng(-94.62600))),
-      Person("7_250_0_0", GPSCoordinates(Lat(39.11136), Lng(-94.6238))),
+      Person("7_250_0_0", GPSCoordinates(Lat(39.11136), Lng(-94.62380))),
     )
   }
   
