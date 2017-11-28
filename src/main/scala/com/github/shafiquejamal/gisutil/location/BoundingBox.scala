@@ -1,19 +1,18 @@
 package com.github.shafiquejamal.gisutil.location
 
 case class BoundingBox(
-    gPSCoordinates1: GPSCoordinates,
-    gPSCoordinates2: GPSCoordinates,
-    gPSCoordinates3: GPSCoordinates,
-    gPSCoordinates4: GPSCoordinates)
+    sW: GPSCoordinates,
+    nW: GPSCoordinates,
+    nE: GPSCoordinates,
+    sE: GPSCoordinates)
   extends Ordered[BoundingBox]{
   
   override def compare(that: BoundingBox): Int =
-    (gPSCoordinates1, gPSCoordinates2, gPSCoordinates3, gPSCoordinates4)
-      .compare(that.gPSCoordinates1, that.gPSCoordinates2, that.gPSCoordinates3, that.gPSCoordinates4)
+    (sW, nW, nE, sE).compare(that.sW, that.nW, that.nE, that.sE)
   
   // Taken from: https://stackoverflow.com/questions/18295825/determine-if-point-is-within-bounding-box
   def contains(candidate: GPSCoordinates): Boolean = {
-    val gPSCoordinates = Seq(gPSCoordinates1, gPSCoordinates2, gPSCoordinates3, gPSCoordinates4).sorted
+    val gPSCoordinates = Seq(sW, nW, nE, sE).sorted
     
     val bottomLeft = gPSCoordinates.head
     val topRight = gPSCoordinates.reverse.head
@@ -29,32 +28,13 @@ case class BoundingBox(
   
 }
 
-object DegreeRadianConverter {
-  
-  implicit class DegreeRadianConverter(value: Double) {
-    def toDegrees: Double = value * Math.PI / 180d
-    
-    def toRadians: Double = value * 180d / Math.PI
-  }
-  
-  object Constants {
-    val MIN_LAT: Double = (-90).toRadians
-    val MAX_LAT: Double = 90.toRadians
-    val MIN_LON: Double = (-180).toRadians
-    val MAX_LON: Double = 180.toRadians
-  
-    val R = 6378.1
-  }
-}
-
-
 object BoundingBox {
   
-  import DegreeRadianConverter.Constants._
+  import Constants._
   
   // Adapted from https://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
   def from(center: GPSCoordinates, edgeLengthKm: Double): BoundingBox = {
-    val radDist = (edgeLengthKm / 2) / R
+    val radDist = (edgeLengthKm / 2) / Rkm
    
     val degLat = center.lat.value
     val degLon = center.lng.value
@@ -77,12 +57,12 @@ object BoundingBox {
       (Math.max(minLatTemp, MIN_LAT).toDegrees, MIN_LON.toDegrees, Math.min(maxLatTemp, MAX_LAT).toDegrees,
         MAX_LON.toDegrees)
     }
-    val corner1 = GPSCoordinates(Lat(minLat), Lng(minLng))
-    val corner2 = GPSCoordinates(Lat(maxLat), Lng(minLng))
-    val corner3 = GPSCoordinates(Lat(maxLat), Lng(maxLng))
-    val corner4 = GPSCoordinates(Lat(minLat), Lng(maxLng))
+    val sW = GPSCoordinates(Lat(minLat), Lng(minLng))
+    val nW = GPSCoordinates(Lat(maxLat), Lng(minLng))
+    val nE = GPSCoordinates(Lat(maxLat), Lng(maxLng))
+    val sE = GPSCoordinates(Lat(minLat), Lng(maxLng))
     
-    BoundingBox(corner1, corner2, corner3, corner4)
+    BoundingBox(sW, nW, nE, sE)
   }
   
 }
