@@ -10,7 +10,7 @@ See the test files for how to use these utilities.
 ## Installation
 
 ```
-libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.1"
+libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.3"
 ```
 ## Calculating the population within areas
 
