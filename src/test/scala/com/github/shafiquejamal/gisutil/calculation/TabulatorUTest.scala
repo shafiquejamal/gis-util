@@ -1,9 +1,9 @@
 package com.github.shafiquejamal.gisutil.calculation
 
-import calculation.CatchmentAreaCalculator
+import com.github.shafiquejamal.calculation.CatchmentAreaCalculator
 import com.github.shafiquejamal.gisutil.location.{GPSCoordinates, Lat, Lng}
 import org.scalatest.{FlatSpecLike, Matchers}
-import points.{Area, CatchmentArea, PointOfInterest, SurveyAreaCharacteristics}
+import com.github.shafiquejamal.points.{Area, CatchmentArea, PointOfInterest, SurveyAreaCharacteristics}
 
 class TabulatorUTest extends FlatSpecLike with Matchers {
   

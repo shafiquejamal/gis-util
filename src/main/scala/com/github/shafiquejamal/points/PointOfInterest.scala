@@ -1,4 +1,4 @@
-package points
+package com.github.shafiquejamal.points
 
 import com.github.shafiquejamal.gisutil.location.GPSCoordinates
 

@@ -1,7 +1,7 @@
-package calculation
+package com.github.shafiquejamal.calculation
 
 import com.github.shafiquejamal.gisutil.location.BoundingBox
-import points.{Area, CatchmentArea, PointOfInterest, SurveyAreaCharacteristics}
+import com.github.shafiquejamal.points.{Area, CatchmentArea, PointOfInterest, SurveyAreaCharacteristics}
 
 object CatchmentAreaCalculator {
   
