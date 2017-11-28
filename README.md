@@ -12,7 +12,32 @@ See below, or the test code, for how to use these utilities.
 ```
 libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.3"
 ```
-## Calculating the population within areas
+
+## Use
+
+### Creating a bounding box
+
+Given a center point and edge length, you can create a square bounding box that is axis aligned, and that can tell you whether a given point is inside it. The bounding box is just four GPS coordinates that are corners of the box, in the following order: SW, NW, NE, SE.
+
+The following code creates a square bounding box with an edge length of 250m. Note that the edge length should be specified in km.
+
+```scala
+val centerPoint = GPSCoordinates(Lat(39.11405), Lng(-94.62746))
+
+val bb250m = BoundingBox.from(centerPoint, 0.250)
+```
+
+To determine whether a given point lies within the bounding box, use the bounding box's `.contain` method:
+
+```scala
+val candidatePointInside250 = GPSCoordinates(Lat(39.11516), Lng(-94.62890))
+val candidatePointOutside250 = GPSCoordinates(Lat(39.11518), Lng(-94.62890))
+
+bb250m contains candidatePointInside250 // true
+bb250m contains candidatePointOutside250 // false
+```
+
+### Calculating the population within square bounding boxes
 
 The following image illustrates the concept:
 
@@ -69,3 +94,7 @@ AreaCharacteristics(surveyArea2, Seq(AreaMeasures(0.25, 3), AreaMeasures(0.5, 4)
 ## References
 
 https://www.movable-type.co.uk/scripts/latlong.html
+
+https://stackoverflow.com/questions/18295825/determine-if-point-is-within-bounding-box
+
+https://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
