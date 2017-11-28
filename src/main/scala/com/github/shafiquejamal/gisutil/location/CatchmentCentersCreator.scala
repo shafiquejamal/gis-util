@@ -1,8 +1,8 @@
 package com.github.shafiquejamal.gisutil.location
 
-import com.github.shafiquejamal.points.PointOfInterest
-import Constants.Rkm
-import Math.{sin, cos, atan2, sqrt, pow}
+import java.lang.Math._
+
+import com.github.shafiquejamal.gisutil.location.Constants.Rkm
 
 object CatchmentCentersCreator {
   

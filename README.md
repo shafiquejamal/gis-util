@@ -91,6 +91,35 @@ AreaCharacteristics(surveyArea1, Seq(AreaMeasures(0.25, 4), AreaMeasures(0.5, 6)
 AreaCharacteristics(surveyArea2, Seq(AreaMeasures(0.25, 3), AreaMeasures(0.5, 4)))
 ```
 
+### Slice a given bounding box into more bounding boxes
+
+Bounding box KC1 above of 250m edge length can be divided into 9 non-overlapping, identically-sized bounding boxes that completely cover the area of the original bounding box.
+
+All that is needed is the center point of the original bounding box, the edge length, and the number of slices into which to cut each edge. From this, new center points and the edge length of each (the latter being identical for all) can then be calculated.
+
+The following image shows the new center points that the code below calculates.
+
+![Screenshot areas with center points](https://user-images.githubusercontent.com/2116061/33327655-0d06063a-d426-11e7-9559-744e2ec02e19.png)
+   
+```scala
+val centerPoint = GPSCoordinates(Lat(39.11405), Lng(-94.62746))
+
+CatchmentCentersCreator.from(centerPoint, 0.250, 3)
+```
+
+This should yield the following points:
+```scala
+GPSCoordinates(Lat(39.11330139958722),Lng(-94.62842482586905)),
+GPSCoordinates(Lat(39.11330139958722),Lng(-94.62746000000003)),
+GPSCoordinates(Lat(39.11330139958722),Lng(-94.62649517413101)),
+GPSCoordinates(Lat(39.11405),Lng(-94.62842482586905)),
+GPSCoordinates(Lat(39.11405),Lng(-94.62746000000003)),
+GPSCoordinates(Lat(39.11405),Lng(-94.62649517413101)),
+GPSCoordinates(Lat(39.11479860041278),Lng(-94.62842482586905)),
+GPSCoordinates(Lat(39.11479860041278),Lng(-94.62746000000003)),
+GPSCoordinates(Lat(39.11479860041278),Lng(-94.62649517413101)))
+```
+
 ## References
 
 https://www.movable-type.co.uk/scripts/latlong.html
