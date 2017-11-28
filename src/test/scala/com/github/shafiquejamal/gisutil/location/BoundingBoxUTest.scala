@@ -16,13 +16,13 @@ class BoundingBoxUTest extends FlatSpecLike with Matchers {
       GPSCoordinates(Lat(39.112927099380826),Lng(-94.62890723880348)),
       GPSCoordinates(Lat(39.11517290061917),Lng(-94.62890723880348)),
       GPSCoordinates(Lat(39.11517290061917),Lng(-94.62601276119655)),
-      GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655))
+      GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655)), 0.250
     )
     val expectedBox500m = BoundingBox(
       GPSCoordinates(Lat(39.11180419876166),Lng(-94.63035447760728)),
       GPSCoordinates(Lat(39.116295801238344),Lng(-94.63035447760728)),
       GPSCoordinates(Lat(39.116295801238344),Lng(-94.62456552239274)),
-      GPSCoordinates(Lat(39.11180419876166),Lng(-94.62456552239274))
+      GPSCoordinates(Lat(39.11180419876166),Lng(-94.62456552239274)), 0.500
     )
   
     bb250m shouldEqual expectedBox250m

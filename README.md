@@ -17,7 +17,7 @@ libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.3"
 
 ### Creating a bounding box
 
-Given a center point and edge length, you can create a square bounding box that is axis aligned, and that can tell you whether a given point is inside it. The bounding box is just four GPS coordinates that are corners of the box, in the following order: SW, NW, NE, SE.
+Given a center point and edge length, you can create a square bounding box that is axis aligned, and that can tell you whether a given point is inside it. The bounding box is just four GPS coordinates that are corners of the box, in the following order: SW, NW, NE, SE, as well as the edge length, which you can specify, but if not then it is calculated from the SW and NW GPS coordinates provided.
 
 The following code creates a square bounding box with an edge length of 250m. Note that the edge length should be specified in km.
 
@@ -26,6 +26,32 @@ val centerPoint = GPSCoordinates(Lat(39.11405), Lng(-94.62746))
 
 val bb250m = BoundingBox.from(centerPoint, 0.250)
 ```
+
+or you can provide the corners:
+
+```scala
+BoundingBox(
+  GPSCoordinates(Lat(39.112927099380826),Lng(-94.62890723880348)),
+  GPSCoordinates(Lat(39.11517290061917),Lng(-94.62890723880348)),
+  GPSCoordinates(Lat(39.11517290061917),Lng(-94.62601276119655)),
+  GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655))
+)
+```
+
+The edge length would be calculated automatically in this case.
+
+Otherwise, you can provide the corners and the edge length (in km):
+
+```scala
+BoundingBox(
+  GPSCoordinates(Lat(39.112927099380826),Lng(-94.62890723880348)),
+  GPSCoordinates(Lat(39.11517290061917),Lng(-94.62890723880348)),
+  GPSCoordinates(Lat(39.11517290061917),Lng(-94.62601276119655)),
+  GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655)), 0.250
+)
+```
+
+Just be sure to provide an accurate edge length.
 
 To determine whether a given point lies within the bounding box, use the bounding box's `.contain` method:
 

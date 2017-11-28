@@ -4,7 +4,8 @@ case class BoundingBox(
     sW: GPSCoordinates,
     nW: GPSCoordinates,
     nE: GPSCoordinates,
-    sE: GPSCoordinates)
+    sE: GPSCoordinates,
+    edgeLengthKm: Double)
   extends Ordered[BoundingBox]{
   
   override def compare(that: BoundingBox): Int =
@@ -62,7 +63,11 @@ object BoundingBox {
     val nE = GPSCoordinates(Lat(maxLat), Lng(maxLng))
     val sE = GPSCoordinates(Lat(minLat), Lng(maxLng))
     
-    BoundingBox(sW, nW, nE, sE)
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm)
   }
+  
+  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates): BoundingBox =
+    BoundingBox(sW, nW, nE, sE, sW.kmDistanceTo(nW))
+  
   
 }

@@ -3,15 +3,23 @@ package com.github.shafiquejamal.gisutil.location
 import java.lang.Math._
 
 import com.github.shafiquejamal.gisutil.location.Constants.Rkm
+import com.github.shafiquejamal.points.Area
 
-object CatchmentCentersCreator {
+case class CatchmentArea(
+    override val id: String,
+    override val center: GPSCoordinates,
+    edgeLengthKm: Double)
+  extends Area[String]
+
+object CatchmentAreasCreator {
   
-  def from(centerPoint: GPSCoordinates, edgeLengthKm: Double, nSlicesOfEachSide: Int): Seq[GPSCoordinates] = {
+  def from(centerPoint: GPSCoordinates, edgeLengthKm: Double, nSlicesOfEachSide: Int): Seq[CatchmentArea] = {
     val bb = BoundingBox.from(centerPoint, edgeLengthKm)
     from(bb, nSlicesOfEachSide)
   }
   
-  def from(bb: BoundingBox, nSlicesOfEachSide: Int): Seq[GPSCoordinates] = {
+  def from(bb: BoundingBox, nSlicesOfEachSide: Int): Seq[CatchmentArea] = {
+    val catchmentAreaEdgeLength = bb.edgeLengthKm / nSlicesOfEachSide
     val portionsOfDistance = 1.to(2 * nSlicesOfEachSide - 1, 2).map(_ / (2d * nSlicesOfEachSide)).toSeq
     val positionsAlongTopAndLeftEdges = portionsOfDistance.map(portion =>
       (intermediatePoint(bb.nW, bb.nE, portion), intermediatePoint(bb.sW, bb.nW, portion)))
@@ -19,7 +27,8 @@ object CatchmentCentersCreator {
       positionsAlongTopAndLeftEdges.map { case (topEdgeCoordinate, _) =>
         GPSCoordinates(leftEdgeCoord.lat, topEdgeCoordinate.lng)
       }
-    }
+    }.zipWithIndex.map { case (centerPoint, index) =>
+      CatchmentArea((index + 1).toString, centerPoint, catchmentAreaEdgeLength) }
   }
 
   // From https://www.movable-type.co.uk/scripts/latlong.html
