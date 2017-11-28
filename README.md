@@ -130,7 +130,7 @@ The following image shows the new center points that the code below calculates.
 ```scala
 val centerPoint = GPSCoordinates(Lat(39.11405), Lng(-94.62746))
 
-CatchmentCentersCreator.from(centerPoint, 0.250, 3)
+CatchmentAreasCreator.from(centerPoint, 0.250, 3)
 ```
 
 This should yield the following points:
