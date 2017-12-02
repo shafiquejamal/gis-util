@@ -10,19 +10,19 @@ class BoundingBoxUTest extends FlatSpecLike with Matchers {
     val bb500m = BoundingBox.from(centerPoint, 0.500)
   }
   
-  "Creating a bounding box from a center point and edge length" should "return a bouding box with coordinates that " +
+  "Creating a bounding box from a center point and edge length" should "return a bounding box with coordinates that " +
   "form a square with an edge length of the specified edge length" in new Fixture {
     val expectedBox250m = BoundingBox(
       GPSCoordinates(Lat(39.112927099380826),Lng(-94.62890723880348)),
       GPSCoordinates(Lat(39.11517290061917),Lng(-94.62890723880348)),
       GPSCoordinates(Lat(39.11517290061917),Lng(-94.62601276119655)),
-      GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655)), 0.250
+      GPSCoordinates(Lat(39.112927099380826),Lng(-94.62601276119655)), 0.250, centerPoint
     )
     val expectedBox500m = BoundingBox(
       GPSCoordinates(Lat(39.11180419876166),Lng(-94.63035447760728)),
       GPSCoordinates(Lat(39.116295801238344),Lng(-94.63035447760728)),
       GPSCoordinates(Lat(39.116295801238344),Lng(-94.62456552239274)),
-      GPSCoordinates(Lat(39.11180419876166),Lng(-94.62456552239274)), 0.500
+      GPSCoordinates(Lat(39.11180419876166),Lng(-94.62456552239274)), 0.500, centerPoint
     )
   
     bb250m shouldEqual expectedBox250m

@@ -2,14 +2,14 @@ package com.github.shafiquejamal.gisutil.calculation
 
 import com.github.shafiquejamal.calculation.CatchmentAreaCalculator
 import com.github.shafiquejamal.gisutil.location.{GPSCoordinates, Lat, Lng}
+import com.github.shafiquejamal.points.{Area, AreaCharacteristics, AreaMeasures, PointOfInterest}
 import org.scalatest.{FlatSpecLike, Matchers}
-import com.github.shafiquejamal.points.{Area, AreaMeasures, PointOfInterest, AreaCharacteristics}
 
 class CatchmentAreaCalculatorUTest extends FlatSpecLike with Matchers {
   
   trait Fixture {
     
-    class SurveyAreaImpl(override val id: String, override val center: GPSCoordinates) extends Area[String]
+    class SurveyAreaImpl(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
     
     object SurveyAreaImpl {
       def apply(id: String, center: GPSCoordinates) = new SurveyAreaImpl(id, center)
@@ -20,7 +20,7 @@ class CatchmentAreaCalculatorUTest extends FlatSpecLike with Matchers {
     
     val surveyAreas = Seq(surveyArea1, surveyArea2)
     
-    class Person(override val id: String, override val gPSCoordinates: GPSCoordinates) extends PointOfInterest[String]
+    class Person(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
     
     object Person {
       def apply(id: String, gPSCoordinates: GPSCoordinates) = new Person(id, gPSCoordinates)

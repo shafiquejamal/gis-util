@@ -2,10 +2,8 @@ package com.github.shafiquejamal.points
 
 import com.github.shafiquejamal.gisutil.location.GPSCoordinates
 
-trait Area[T] {
+trait Area[T] extends PointOfInterest[T] {
   
-  def id: T
-  
-  def center: GPSCoordinates
+  def contains(candidate: GPSCoordinates): Boolean
   
 }

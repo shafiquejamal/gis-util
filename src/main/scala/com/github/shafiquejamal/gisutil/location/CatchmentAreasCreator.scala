@@ -1,17 +1,15 @@
 package com.github.shafiquejamal.gisutil.location
 
-import java.lang.Math._
-
-import com.github.shafiquejamal.gisutil.location.Constants.Rkm
-import com.github.shafiquejamal.points.Area
+import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
+import com.github.shafiquejamal.points.PointOfInterest
 
 case class CatchmentArea(
     override val id: String,
-    override val center: GPSCoordinates,
+    override val location: GPSCoordinates,
     edgeLengthKm: Double)
-  extends Area[String]
+  extends PointOfInterest[String]
 
-object CatchmentAreasCreator {
+object CatchmentArea {
   
   def from(centerPoint: GPSCoordinates, edgeLengthKm: Double, nSlicesOfEachSide: Int): Seq[CatchmentArea] = {
     val bb = BoundingBox.from(centerPoint, edgeLengthKm)
@@ -30,24 +28,5 @@ object CatchmentAreasCreator {
     }.zipWithIndex.map { case (centerPoint, index) =>
       CatchmentArea((index + 1).toString, centerPoint, catchmentAreaEdgeLength) }
   }
-
-  // From https://www.movable-type.co.uk/scripts/latlong.html
-  def intermediatePoint(pointA: GPSCoordinates, pointB: GPSCoordinates, f: Double): GPSCoordinates = {
-    val dkm = pointA kmDistanceTo pointB
-    val delta = dkm / Rkm
-    val a = sin((1 - f) * delta) / sin(delta)
-    val b = sin(f * delta) / sin(delta)
-    val phi1 = pointA.lat.value.toRadians
-    val phi2 = pointB.lat.value.toRadians
-    val lambda1 = pointA.lng.value.toRadians
-    val lambda2 = pointB.lng.value.toRadians
-    val x = a * cos(phi1) * cos(lambda1) + b * cos(phi2) * cos(lambda2)
-    val y = a * cos(phi1) * sin(lambda1) + b * cos(phi2) * sin(lambda2)
-    val z = a * sin(phi1) + b * sin(phi2)
-    val phiI = atan2(z, sqrt(pow(x, 2) + pow(y, 2)))
-    val lambdaI = atan2(y, x)
-    GPSCoordinates(Lat(phiI.toDegrees), Lng(lambdaI.toDegrees))
-  }
-  
   
 }

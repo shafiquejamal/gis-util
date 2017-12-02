@@ -1,18 +1,23 @@
 package com.github.shafiquejamal.gisutil.location
 
+import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
+import com.github.shafiquejamal.points.Area
+
 case class BoundingBox(
     sW: GPSCoordinates,
     nW: GPSCoordinates,
     nE: GPSCoordinates,
     sE: GPSCoordinates,
-    edgeLengthKm: Double)
-  extends Ordered[BoundingBox]{
+    edgeLengthKm: Double,
+    location: GPSCoordinates,
+    id: String)
+  extends Ordered[BoundingBox] with Area[String] {
   
   override def compare(that: BoundingBox): Int =
     (sW, nW, nE, sE).compare(that.sW, that.nW, that.nE, that.sE)
   
   // Taken from: https://stackoverflow.com/questions/18295825/determine-if-point-is-within-bounding-box
-  def contains(candidate: GPSCoordinates): Boolean = {
+  override def contains(candidate: GPSCoordinates): Boolean = {
     val gPSCoordinates = Seq(sW, nW, nE, sE).sorted
     
     val bottomLeft = gPSCoordinates.head
@@ -63,11 +68,24 @@ object BoundingBox {
     val nE = GPSCoordinates(Lat(maxLat), Lng(maxLng))
     val sE = GPSCoordinates(Lat(minLat), Lng(maxLng))
     
-    BoundingBox(sW, nW, nE, sE, edgeLengthKm)
+    val id = s"${center.lat.value.toString}_${center.lng.value.toString}"
+    
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id)
   }
   
   def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates): BoundingBox =
-    BoundingBox(sW, nW, nE, sE, sW.kmDistanceTo(nW))
+    BoundingBox(sW, nW, nE, sE, sW kmDistanceTo nW)
   
+  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates,
+      edgeLengthKm: Double): BoundingBox = {
+    val center: GPSCoordinates = intermediatePoint(sW, nE, 0.5)
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center)
+  }
+  
+  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates, edgeLengthKm: Double,
+      center: GPSCoordinates): BoundingBox = {
+    val id = s"${center.lat.value.toString}_${center.lng.value.toString}"
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id)
+  }
   
 }

@@ -6,6 +6,6 @@ trait PointOfInterest[T] {
   
   def id: T
   
-  def gPSCoordinates: GPSCoordinates
+  def location: GPSCoordinates
   
 }
