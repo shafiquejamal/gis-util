@@ -2,7 +2,7 @@ package com.github.shafiquejamal.gisutil.location
 
 import org.scalatest.{FlatSpecLike, Matchers}
 
-class CatchmentAreasCreatorUTest extends FlatSpecLike with Matchers {
+class CatchmentCenterUTest extends FlatSpecLike with Matchers {
   
   trait Fixture {
     val newEdgeLength = 0.250 / 3

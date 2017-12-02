@@ -7,7 +7,13 @@ case class CatchmentCenter(
     override val id: String,
     override val location: GPSCoordinates,
     edgeLengthKm: Double)
-  extends PointOfInterest[String]
+  extends PointOfInterest[String] {
+  
+  def cSVHeader: Seq[String] = Seq("id", "latitude", "longitude", "edgeLength (km)")
+  
+  def toSeq: Seq[String] = Seq(id, location.lat.value.toString, location.lng.value.toString, edgeLengthKm.toString)
+  
+}
 
 object CatchmentCenter {
   
