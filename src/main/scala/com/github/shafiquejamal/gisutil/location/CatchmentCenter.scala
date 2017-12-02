@@ -9,13 +9,13 @@ case class CatchmentCenter(
     edgeLengthKm: Double)
   extends PointOfInterest[String] {
   
-  def cSVHeader: Seq[String] = Seq("id", "latitude", "longitude", "edgeLength (km)")
-  
   def toSeq: Seq[String] = Seq(id, location.lat.value.toString, location.lng.value.toString, edgeLengthKm.toString)
   
 }
 
 object CatchmentCenter {
+  
+  def cSVHeader: Seq[String] = Seq("id", "latitude", "longitude", "edgeLength (km)")
   
   def from(centerPoint: GPSCoordinates, edgeLengthKm: Double, nSlicesOfEachSide: Int): Seq[CatchmentCenter] = {
     val bb = BoundingBox.from(centerPoint, edgeLengthKm)
