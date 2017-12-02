@@ -84,8 +84,7 @@ object BoundingBox {
   
   def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates, edgeLengthKm: Double,
       center: GPSCoordinates): BoundingBox = {
-    val id = s"${center.lat.value.toString}_${center.lng.value.toString}"
-    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id)
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, center.makeId)
   }
   
 }

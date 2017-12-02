@@ -18,6 +18,8 @@ case class GPSCoordinates(lat: Lat, lng: Lng) extends Ordered[GPSCoordinates] {
     }
   }
   
+  def makeId: String = s"${lat.value.toString}_${lng.value.toString}"
+  
   // https://www.movable-type.co.uk/scripts/latlong.html
   def metersDistanceTo(that: GPSCoordinates): Double = {
     import Constants.Rkm

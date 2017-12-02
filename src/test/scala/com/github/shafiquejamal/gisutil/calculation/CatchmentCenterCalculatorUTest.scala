@@ -5,7 +5,7 @@ import com.github.shafiquejamal.gisutil.location.{GPSCoordinates, Lat, Lng}
 import com.github.shafiquejamal.points.{Area, AreaCharacteristics, AreaMeasures, PointOfInterest}
 import org.scalatest.{FlatSpecLike, Matchers}
 
-class CatchmentAreaCalculatorUTest extends FlatSpecLike with Matchers {
+class CatchmentCenterCalculatorUTest extends FlatSpecLike with Matchers {
   
   trait Fixture {
     
