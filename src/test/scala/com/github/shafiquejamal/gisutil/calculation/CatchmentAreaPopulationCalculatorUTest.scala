@@ -1,13 +1,20 @@
 package com.github.shafiquejamal.gisutil.calculation
 
 import com.github.shafiquejamal.calculation.CatchmentAreaPopulationCalculator
-import com.github.shafiquejamal.gisutil.location.{BoundingBox, GPSCoordinates, Lat, Lng}
+import com.github.shafiquejamal.gisutil.location._
 import com.github.shafiquejamal.points._
 import org.scalatest.{FlatSpecLike, Matchers}
 
 class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers {
   
-  trait Fixture {
+
+  trait TestClass {
+  
+    case class Person(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
+    
+  }
+  
+  trait Fixture extends TestClass {
     
     class SurveyAreaImpl(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
     
@@ -19,12 +26,6 @@ class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers 
     val surveyArea2 = SurveyAreaImpl("Kansas_KC_2", GPSCoordinates(Lat(39.11244), Lng(-94.62537)))
     
     val surveyAreas = Seq(surveyArea1, surveyArea2)
-    
-    class Person(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
-    
-    object Person {
-      def apply(id: String, gPSCoordinates: GPSCoordinates) = new Person(id, gPSCoordinates)
-    }
     
     val persons = Seq(
       Person("1_250_0_0", GPSCoordinates(Lat(39.11518), Lng(-94.62890))),
@@ -68,4 +69,24 @@ class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers 
     CatchmentAreaPopulationCalculator numberOf persons in boundingBoxes should contain theSameElementsInOrderAs expected
   }
   
+  it should "calculate the number of people in the given bounding circles" in new TestClass {
+    val persons = Seq(
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62649517413101))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62649517413101))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62649517413101))))
+    
+    val circle100m = BoundingCircle("200m", GPSCoordinates(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.1)
+    val circle105m = BoundingCircle("200m", GPSCoordinates(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.105)
+    val circles = Seq(circle100m, circle105m)
+    
+    val expected = Seq(AreaPopulation(circle100m, 3), AreaPopulation(circle105m, 4))
+    
+    CatchmentAreaPopulationCalculator numberOf persons in circles should contain theSameElementsAs expected
+  }
 }
