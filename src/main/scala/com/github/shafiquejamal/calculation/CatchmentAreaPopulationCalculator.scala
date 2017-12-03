@@ -20,7 +20,6 @@ class CatchmentAreaPopulationCalculator[T](pointsOfInterest: Seq[PointOfInterest
       }
       accAreasCharacteristics :+ SquareAreaCharacteristics(area, catchmentAreas)
     }
-    
   }
   
 }

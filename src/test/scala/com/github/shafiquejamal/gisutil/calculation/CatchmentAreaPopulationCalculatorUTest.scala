@@ -8,13 +8,26 @@ import org.scalatest.{FlatSpecLike, Matchers}
 class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers {
   
 
-  trait TestClass {
+  trait TestClassFixture {
   
     case class Person(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
     
   }
   
-  trait Fixture extends TestClass {
+  trait CircleAndEllipseFixture extends TestClassFixture {
+    val persons = Seq(
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62649517413101))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62649517413101))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62842482586905))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62746000000003))),
+      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62649517413101))))
+  }
+  
+  trait Fixture extends TestClassFixture {
     
     class SurveyAreaImpl(override val id: String, override val location: GPSCoordinates) extends PointOfInterest[String]
     
@@ -69,24 +82,22 @@ class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers 
     CatchmentAreaPopulationCalculator numberOf persons in boundingBoxes should contain theSameElementsInOrderAs expected
   }
   
-  it should "calculate the number of people in the given bounding circles" in new TestClass {
-    val persons = Seq(
-      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62842482586905))),
-      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62746000000003))),
-      Person("", GPSCoordinates(Lat(39.11330139958722), Lng(-94.62649517413101))),
-      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62842482586905))),
-      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62746000000003))),
-      Person("", GPSCoordinates(Lat(39.11405), Lng(-94.62649517413101))),
-      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62842482586905))),
-      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62746000000003))),
-      Person("", GPSCoordinates(Lat(39.11479860041278), Lng(-94.62649517413101))))
-    
+  it should "calculate the number of people in the given bounding circles" in new CircleAndEllipseFixture {
     val circle100m = BoundingCircle("200m", GPSCoordinates(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.1)
     val circle105m = BoundingCircle("200m", GPSCoordinates(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.105)
     val circles = Seq(circle100m, circle105m)
     
     val expected = Seq(AreaPopulation(circle100m, 3), AreaPopulation(circle105m, 4))
     
-    CatchmentAreaPopulationCalculator numberOf persons in circles should contain theSameElementsAs expected
+    CatchmentAreaPopulationCalculator numberOf persons in circles should contain theSameElementsInOrderAs expected
+  }
+  
+  it should "calculate the number of people in the given bounding ellipses" in new CircleAndEllipseFixture {
+    val ellipseBig = BoundingEllipse("eb", GPSCoordinates(Lat(39.11405),Lng(-94.62746)), 0.2, 0.1, 20)
+    val ellipseSmall = BoundingEllipse("es", GPSCoordinates(Lat(39.11405),Lng(-94.62746)), 0.1, 0.05, 20)
+    val ellipses = Seq(ellipseBig, ellipseSmall)
+    val expected = Seq(AreaPopulation(ellipseBig, 7), AreaPopulation(ellipseSmall, 3))
+    
+    CatchmentAreaPopulationCalculator numberOf persons in ellipses should contain theSameElementsInOrderAs expected
   }
 }

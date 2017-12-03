@@ -25,4 +25,20 @@ object LocationCalculator {
     GPSCoordinates(Lat(phiI.toDegrees), Lng(lambdaI.toDegrees))
   }
   
+  def locationFrom(degTiltFromWest: Double, startingPoint: GPSCoordinates, kmDistance: Double): GPSCoordinates = {
+    val lat1Rad = startingPoint.lat.value.toRadians
+    val lng1Rad = startingPoint.lng.value.toRadians
+    val bearingRad = (degTiltFromWest - 90).toRadians
+    val deltaRad = kmDistance / Rkm
+    
+    val lat2Rad = Math.asin(
+      (Math.sin(lat1Rad) * Math.cos(deltaRad)) +
+      (Math.cos(lat1Rad) * Math.sin(deltaRad) * Math.cos(bearingRad)))
+    val lng2Rad = lng1Rad + Math.atan2(Math.sin(bearingRad) * Math.sin(deltaRad) * Math.cos(lat1Rad),
+      Math.cos(deltaRad) - (Math.sin(lat1Rad) * Math.sin(lat2Rad)))
+    
+    GPSCoordinates(Lat(lat2Rad.toDegrees), Lng(lng2Rad.toDegrees))
+  }
+  
+  
 }
