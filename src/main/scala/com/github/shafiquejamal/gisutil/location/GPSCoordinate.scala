@@ -8,8 +8,8 @@ case class Lng(value: Double) extends Ordered[Lng] {
   override def compare(that: Lng): Int = value compare that.value
 }
 
-case class GPSCoordinates(lat: Lat, lng: Lng) extends Ordered[GPSCoordinates] {
-  override def compare(that: GPSCoordinates): Int = {
+case class GPSCoordinate(lat: Lat, lng: Lng) extends Ordered[GPSCoordinate] {
+  override def compare(that: GPSCoordinate): Int = {
     val latitudeComparison = lat.compare(that.lat)
     if (latitudeComparison != 0) {
       latitudeComparison
@@ -21,7 +21,7 @@ case class GPSCoordinates(lat: Lat, lng: Lng) extends Ordered[GPSCoordinates] {
   def makeId: String = s"${lat.value.toString}_${lng.value.toString}"
   
   // https://www.movable-type.co.uk/scripts/latlong.html
-  def metersDistanceTo(that: GPSCoordinates): Double = {
+  def metersDistanceTo(that: GPSCoordinate): Double = {
     import Constants.Rkm
     val lat1 = lat.value
     val lat2 = that.lat.value
@@ -37,7 +37,7 @@ case class GPSCoordinates(lat: Lat, lng: Lng) extends Ordered[GPSCoordinates] {
     Rkm * 1000 * c
   }
   
-  def kmDistanceTo(that: GPSCoordinates): Double = metersDistanceTo(that) / 1000d
+  def kmDistanceTo(that: GPSCoordinate): Double = metersDistanceTo(that) / 1000d
   
 }
 

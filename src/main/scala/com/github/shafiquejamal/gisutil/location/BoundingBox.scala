@@ -4,12 +4,12 @@ import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
 import com.github.shafiquejamal.points.Area
 
 case class BoundingBox(
-    sW: GPSCoordinates,
-    nW: GPSCoordinates,
-    nE: GPSCoordinates,
-    sE: GPSCoordinates,
+    sW: GPSCoordinate,
+    nW: GPSCoordinate,
+    nE: GPSCoordinate,
+    sE: GPSCoordinate,
     edgeLengthKm: Double,
-    location: GPSCoordinates,
+    location: GPSCoordinate,
     id: String)
   extends Ordered[BoundingBox] with Area[String] {
   
@@ -17,7 +17,7 @@ case class BoundingBox(
     (sW, nW, nE, sE).compare(that.sW, that.nW, that.nE, that.sE)
   
   // Taken from: https://stackoverflow.com/questions/18295825/determine-if-point-is-within-bounding-box
-  override def contains(candidate: GPSCoordinates): Boolean = {
+  override def contains(candidate: GPSCoordinate): Boolean = {
     val gPSCoordinates = Seq(sW, nW, nE, sE).sorted
     
     val bottomLeft = gPSCoordinates.head
@@ -39,7 +39,7 @@ object BoundingBox {
   import Constants._
   
   // Adapted from https://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
-  def from(center: GPSCoordinates, edgeLengthKm: Double): BoundingBox = {
+  def from(center: GPSCoordinate, edgeLengthKm: Double): BoundingBox = {
     val radDist = (edgeLengthKm / 2) / Rkm
    
     val degLat = center.lat.value
@@ -63,27 +63,27 @@ object BoundingBox {
       (Math.max(minLatTemp, MIN_LAT).toDegrees, MIN_LON.toDegrees, Math.min(maxLatTemp, MAX_LAT).toDegrees,
         MAX_LON.toDegrees)
     }
-    val sW = GPSCoordinates(Lat(minLat), Lng(minLng))
-    val nW = GPSCoordinates(Lat(maxLat), Lng(minLng))
-    val nE = GPSCoordinates(Lat(maxLat), Lng(maxLng))
-    val sE = GPSCoordinates(Lat(minLat), Lng(maxLng))
+    val sW = GPSCoordinate(Lat(minLat), Lng(minLng))
+    val nW = GPSCoordinate(Lat(maxLat), Lng(minLng))
+    val nE = GPSCoordinate(Lat(maxLat), Lng(maxLng))
+    val sE = GPSCoordinate(Lat(minLat), Lng(maxLng))
     
     val id = s"${center.lat.value.toString}_${center.lng.value.toString}"
     
     BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id)
   }
   
-  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates): BoundingBox =
+  def apply(sW: GPSCoordinate, nW: GPSCoordinate, nE: GPSCoordinate, sE: GPSCoordinate): BoundingBox =
     BoundingBox(sW, nW, nE, sE, sW kmDistanceTo nW)
   
-  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates,
+  def apply(sW: GPSCoordinate, nW: GPSCoordinate, nE: GPSCoordinate, sE: GPSCoordinate,
       edgeLengthKm: Double): BoundingBox = {
-    val center: GPSCoordinates = intermediatePoint(sW, nE, 0.5)
+    val center: GPSCoordinate = intermediatePoint(sW, nE, 0.5)
     BoundingBox(sW, nW, nE, sE, edgeLengthKm, center)
   }
   
-  def apply(sW: GPSCoordinates, nW: GPSCoordinates, nE: GPSCoordinates, sE: GPSCoordinates, edgeLengthKm: Double,
-      center: GPSCoordinates): BoundingBox = {
+  def apply(sW: GPSCoordinate, nW: GPSCoordinate, nE: GPSCoordinate, sE: GPSCoordinate, edgeLengthKm: Double,
+      center: GPSCoordinate): BoundingBox = {
     BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, center.makeId)
   }
   

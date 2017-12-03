@@ -3,12 +3,12 @@ package com.github.shafiquejamal.calculation
 import java.lang.Math._
 
 import com.github.shafiquejamal.gisutil.location.Constants.Rkm
-import com.github.shafiquejamal.gisutil.location.{GPSCoordinates, Lat, Lng}
+import com.github.shafiquejamal.gisutil.location.{GPSCoordinate, Lat, Lng}
 
 object LocationCalculator {
   
   // From https://www.movable-type.co.uk/scripts/latlong.html
-  def intermediatePoint(pointA: GPSCoordinates, pointB: GPSCoordinates, f: Double): GPSCoordinates = {
+  def intermediatePoint(pointA: GPSCoordinate, pointB: GPSCoordinate, f: Double): GPSCoordinate = {
     val dkm = pointA kmDistanceTo pointB
     val delta = dkm / Rkm
     val a = sin((1 - f) * delta) / sin(delta)
@@ -22,10 +22,10 @@ object LocationCalculator {
     val z = a * sin(phi1) + b * sin(phi2)
     val phiI = atan2(z, sqrt(pow(x, 2) + pow(y, 2)))
     val lambdaI = atan2(y, x)
-    GPSCoordinates(Lat(phiI.toDegrees), Lng(lambdaI.toDegrees))
+    GPSCoordinate(Lat(phiI.toDegrees), Lng(lambdaI.toDegrees))
   }
   
-  def locationFrom(degTiltFromWest: Double, startingPoint: GPSCoordinates, kmDistance: Double): GPSCoordinates = {
+  def locationFrom(degTiltFromWest: Double, startingPoint: GPSCoordinate, kmDistance: Double): GPSCoordinate = {
     val lat1Rad = startingPoint.lat.value.toRadians
     val lng1Rad = startingPoint.lng.value.toRadians
     val bearingRad = (degTiltFromWest - 90).toRadians
@@ -36,8 +36,8 @@ object LocationCalculator {
       (Math.cos(lat1Rad) * Math.sin(deltaRad) * Math.cos(bearingRad)))
     val lng2Rad = lng1Rad + Math.atan2(Math.sin(bearingRad) * Math.sin(deltaRad) * Math.cos(lat1Rad),
       Math.cos(deltaRad) - (Math.sin(lat1Rad) * Math.sin(lat2Rad)))
-    
-    GPSCoordinates(Lat(lat2Rad.toDegrees), Lng(lng2Rad.toDegrees))
+  
+    GPSCoordinate(Lat(lat2Rad.toDegrees), Lng(lng2Rad.toDegrees))
   }
   
   

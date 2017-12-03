@@ -4,9 +4,10 @@ import com.github.shafiquejamal.points.Area
 
 case class BoundingCircle(
     override val id: String,
-    override val location: GPSCoordinates,
-    kmRadius: Double) extends Area[String] {
+    override val location: GPSCoordinate,
+    kmRadius: Double)
+  extends Area[String] {
   
-  override def contains(candidate: GPSCoordinates): Boolean = (location kmDistanceTo candidate) < kmRadius
+  override def contains(candidate: GPSCoordinate): Boolean = (location kmDistanceTo candidate) < kmRadius
   
 }
