@@ -3,7 +3,7 @@ package com.github.shafiquejamal.gisutil.location
 import java.lang.Math._
 
 import com.github.shafiquejamal.calculation.LocationCalculator
-import com.github.shafiquejamal.points.Area
+import com.github.shafiquejamal.point.Area
 
 case class CartesianPoint(x: Double, y: Double)
 

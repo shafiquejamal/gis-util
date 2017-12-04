@@ -1,6 +1,6 @@
 package com.github.shafiquejamal.gisutil.location
 
-import com.github.shafiquejamal.points.Area
+import com.github.shafiquejamal.point.Area
 
 case class BoundingCircle(
     override val id: String,

@@ -1,7 +1,7 @@
 package com.github.shafiquejamal.gisutil.location
 
 import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
-import com.github.shafiquejamal.points.Area
+import com.github.shafiquejamal.point.Area
 
 case class BoundingBox(
     sW: GPSCoordinate,

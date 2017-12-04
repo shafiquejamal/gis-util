@@ -2,7 +2,7 @@ package com.github.shafiquejamal.gisutil.calculation
 
 import com.github.shafiquejamal.calculation.CatchmentAreaPopulationCalculator
 import com.github.shafiquejamal.gisutil.location._
-import com.github.shafiquejamal.points._
+import com.github.shafiquejamal.point._
 import org.scalatest.{FlatSpecLike, Matchers}
 
 class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers {

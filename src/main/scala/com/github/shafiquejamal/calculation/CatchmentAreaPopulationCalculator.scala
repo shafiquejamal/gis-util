@@ -1,7 +1,7 @@
 package com.github.shafiquejamal.calculation
 
 import com.github.shafiquejamal.gisutil.location.BoundingBox
-import com.github.shafiquejamal.points._
+import com.github.shafiquejamal.point._
 
 class CatchmentAreaPopulationCalculator[T](pointsOfInterest: Seq[PointOfInterest[T]] = Seq()) {
   

@@ -1,7 +1,7 @@
 package com.github.shafiquejamal.gisutil.location
 
 import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
-import com.github.shafiquejamal.points.PointOfInterest
+import com.github.shafiquejamal.point.PointOfInterest
 
 case class CatchmentCenter(
     override val id: String,
