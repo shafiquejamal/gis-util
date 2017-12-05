@@ -1,5 +1,6 @@
 package com.github.shafiquejamal.gisutil.location
 
+import com.github.shafiquejamal.gisutil.Fixture.{BoundingBoxFixture, PersonsFixture}
 import org.scalatest.{FlatSpecLike, Matchers}
 
 class BoundingBoxUTest extends FlatSpecLike with Matchers {
@@ -31,9 +32,14 @@ class BoundingBoxUTest extends FlatSpecLike with Matchers {
     val candidatePointInside250 = GPSCoordinate(Lat(39.11516), Lng(-94.62890))
     val candidatePointOutside250 = GPSCoordinate(Lat(39.11518), Lng(-94.62890))
     
-    bb250m contains candidatePointInside250 shouldBe true
-    bb250m contains candidatePointOutside250 shouldBe false
-    BoundingBox.from(centerPoint, 0.2479) contains candidatePointInside250 shouldBe false
+    bb250m boundaryWraps candidatePointInside250 shouldBe true
+    bb250m boundaryWraps candidatePointOutside250 shouldBe false
+    BoundingBox.from(centerPoint, 0.2479) boundaryWraps candidatePointInside250 shouldBe false
   }
   
+  it should "be able to determine the population within it" in new PersonsFixture with BoundingBoxFixture {
+  
+    (bBox250m `with` persons).nWithin shouldEqual 4
+    (bBox500m `with` persons).nWithin shouldEqual 6
+  }
 }

@@ -9,8 +9,8 @@ class BoundingEllipseUTest extends FlatSpecLike with Matchers {
     val pointOutside = GPSCoordinate(Lat(39.120261171336146), Lng(-94.64946337892016))
     val pointInside = GPSCoordinate(Lat(39.120138217988696), Lng(-94.64902763079968))
     
-    ellipse contains pointOutside shouldBe false
-    ellipse contains pointInside shouldBe true
+    ellipse boundaryWraps pointOutside shouldBe false
+    ellipse boundaryWraps pointInside shouldBe true
   }
 
 }

@@ -1,7 +1,7 @@
 package com.github.shafiquejamal.gisutil.location
 
 import com.github.shafiquejamal.calculation.LocationCalculator.intermediatePoint
-import com.github.shafiquejamal.point.Area
+import com.github.shafiquejamal.point.{Area, PointOfInterest}
 
 case class BoundingBox(
     sW: GPSCoordinate,
@@ -10,14 +10,14 @@ case class BoundingBox(
     sE: GPSCoordinate,
     edgeLengthKm: Double,
     location: GPSCoordinate,
-    id: String)
-  extends Ordered[BoundingBox] with Area[String] {
+    id: String,
+    override val pointsWithin: Seq[PointOfInterest[String]]) extends Ordered[BoundingBox] with Area[String] {
   
   override def compare(that: BoundingBox): Int =
     (sW, nW, nE, sE).compare(that.sW, that.nW, that.nE, that.sE)
   
   // Taken from: https://stackoverflow.com/questions/18295825/determine-if-point-is-within-bounding-box
-  override def contains(candidate: GPSCoordinate): Boolean = {
+  override def boundaryWraps(candidate: GPSCoordinate): Boolean = {
     val gPSCoordinates = Seq(sW, nW, nE, sE).sorted
     
     val bottomLeft = gPSCoordinates.head
@@ -32,6 +32,9 @@ case class BoundingBox(
     candidate.lat >= bottomLeft.lat && candidate.lat <= topRight.lat && isLongitudeIsInRange
   }
   
+  protected def construct(allPointsWithin: Seq[PointOfInterest[String]]): Area[String] =
+    this.copy(pointsWithin = allPointsWithin)
+  
 }
 
 object BoundingBox {
@@ -39,7 +42,7 @@ object BoundingBox {
   import Constants._
   
   // Adapted from https://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
-  def from(center: GPSCoordinate, edgeLengthKm: Double): BoundingBox = {
+  def from(center: GPSCoordinate, edgeLengthKm: Double, pointsWithin: Seq[PointOfInterest[String]] = Seq()): BoundingBox = {
     val radDist = (edgeLengthKm / 2) / Rkm
    
     val degLat = center.lat.value
@@ -70,7 +73,7 @@ object BoundingBox {
     
     val id = s"${center.lat.value.toString}_${center.lng.value.toString}"
     
-    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id)
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, id, pointsWithin)
   }
   
   def apply(sW: GPSCoordinate, nW: GPSCoordinate, nE: GPSCoordinate, sE: GPSCoordinate): BoundingBox =
@@ -83,8 +86,8 @@ object BoundingBox {
   }
   
   def apply(sW: GPSCoordinate, nW: GPSCoordinate, nE: GPSCoordinate, sE: GPSCoordinate, edgeLengthKm: Double,
-      center: GPSCoordinate): BoundingBox = {
-    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, center.makeId)
+      center: GPSCoordinate, pointsWithin: Seq[PointOfInterest[String]] = Seq()): BoundingBox = {
+    BoundingBox(sW, nW, nE, sE, edgeLengthKm, center, center.makeId, pointsWithin)
   }
   
 }
