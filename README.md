@@ -10,7 +10,7 @@ See below, or the test code, for how to use these utilities.
 ## Installation
 
 ```
-libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.4"
+libraryDependencies += "com.github.shafiquejamal" %% "gis-util" % "0.0.11"
 ```
 
 ## Use
