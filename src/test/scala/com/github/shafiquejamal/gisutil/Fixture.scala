@@ -9,7 +9,7 @@ object Fixture {
     case class Person(override val id: String, override val location: GPSCoordinate) extends PointOfInterest[String]
   }
   
-  trait PersonsOnDividedFraymFixture extends TestClassFixture {
+  trait PersonsOnDividedFrameFixture extends TestClassFixture {
     val persons = Seq(
       Person("", GPSCoordinate(Lat(39.11330139958722), Lng(-94.62842482586905))),
       Person("", GPSCoordinate(Lat(39.11330139958722), Lng(-94.62746000000003))),

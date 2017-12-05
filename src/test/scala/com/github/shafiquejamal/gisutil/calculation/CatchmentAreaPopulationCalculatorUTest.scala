@@ -1,7 +1,7 @@
 package com.github.shafiquejamal.gisutil.calculation
 
 import com.github.shafiquejamal.calculation.CatchmentAreaPopulationCalculator
-import com.github.shafiquejamal.gisutil.Fixture.{BoundingBoxFixture, PersonsFixture, PersonsOnDividedFraymFixture, TestClassFixture}
+import com.github.shafiquejamal.gisutil.Fixture.{BoundingBoxFixture, PersonsFixture, PersonsOnDividedFrameFixture, TestClassFixture}
 import com.github.shafiquejamal.gisutil.location._
 import com.github.shafiquejamal.point._
 import org.scalatest.{FlatSpecLike, Matchers}
@@ -42,7 +42,7 @@ class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers 
     CatchmentAreaPopulationCalculator numberOf persons in boundingBoxes should contain theSameElementsInOrderAs expected
   }
   
-  it should "calculate the number of people in the given bounding circles" in new PersonsOnDividedFraymFixture {
+  it should "calculate the number of people in the given bounding circles" in new PersonsOnDividedFrameFixture {
     val circle100m = BoundingCircle("200m", GPSCoordinate(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.1)
     val circle105m = BoundingCircle("200m", GPSCoordinate(Lat(39.11350139958722), Lng(-94.62650517413101)), 0.105)
     val circles = Seq(circle100m, circle105m)
@@ -52,7 +52,7 @@ class CatchmentAreaPopulationCalculatorUTest extends FlatSpecLike with Matchers 
     CatchmentAreaPopulationCalculator numberOf persons in circles should contain theSameElementsInOrderAs expected
   }
   
-  it should "calculate the number of people in the given bounding ellipses" in new PersonsOnDividedFraymFixture {
+  it should "calculate the number of people in the given bounding ellipses" in new PersonsOnDividedFrameFixture {
     val ellipseBig = BoundingEllipse("eb", GPSCoordinate(Lat(39.11405), Lng(-94.62746)), 0.2, 0.1, 20)
     val ellipseSmall = BoundingEllipse("es", GPSCoordinate(Lat(39.11405), Lng(-94.62746)), 0.1, 0.05, 20)
     val ellipses = Seq(ellipseBig, ellipseSmall)
