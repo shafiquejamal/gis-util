@@ -11,6 +11,11 @@ case class CatchmentCenter(
   
   def toSeq: Seq[String] = Seq(id, location.lat.value.toString, location.lng.value.toString, edgeLengthKm.toString)
   
+  def toEmptyBoundingBox: BoundingBox = toBoundingBox(Seq())
+  
+  def toBoundingBox(pointsWithin: Seq[PointOfInterest[String]]):
+    BoundingBox = BoundingBox.from(location, edgeLengthKm, pointsWithin)
+  
 }
 
 object CatchmentCenter {
