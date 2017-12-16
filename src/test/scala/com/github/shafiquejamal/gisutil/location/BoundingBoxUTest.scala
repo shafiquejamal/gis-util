@@ -38,8 +38,21 @@ class BoundingBoxUTest extends FlatSpecLike with Matchers {
   }
   
   it should "be able to determine the population within it" in new PersonsFixture with BoundingBoxFixture {
-  
     (bBox250m `with` persons).nWithin shouldEqual 4
     (bBox500m `with` persons).nWithin shouldEqual 6
+  }
+  
+  it should "not allow the creation with points outside of it" in new PersonsFixture {
+    val centerPoint = GPSCoordinate(Lat(39.11405), Lng(-94.62746))
+    val candidatePointOutside250 = Person("id", GPSCoordinate(Lat(30.11518), Lng(-44.62890)))
+    
+    a[RuntimeException] shouldBe thrownBy(
+      BoundingBox(
+        GPSCoordinate(Lat(39.112927099380826), Lng(-94.62890723880348)),
+        GPSCoordinate(Lat(39.11517290061917), Lng(-94.62890723880348)),
+        GPSCoordinate(Lat(39.11517290061917), Lng(-94.62601276119655)),
+        GPSCoordinate(Lat(39.112927099380826), Lng(-94.62601276119655)),
+          0.050, centerPoint, "id", Seq(candidatePointOutside250))
+    )
   }
 }

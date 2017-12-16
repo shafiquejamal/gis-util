@@ -14,7 +14,7 @@ case class BoundingEllipse(
     kmSemiMinor: Double,
     degTiltFromWest: Double,
     pointsWithin: Seq[PointOfInterest[String]] = Seq())
-  extends Area[String] {
+  extends Area[String, BoundingEllipse] {
   
   private val distanceToFocus = sqrt(abs(pow(kmSemiMajor, 2) - pow(kmSemiMinor, 2)))
   
@@ -25,7 +25,7 @@ case class BoundingEllipse(
     distanceFromCandidateToFoci < 2 * kmSemiMajor
   }
   
-  protected def construct(allPointsWithin: Seq[PointOfInterest[String]]): Area[String] =
+  protected def construct(allPointsWithin: Seq[PointOfInterest[String]]): BoundingEllipse =
     this.copy(pointsWithin = allPointsWithin)
   
 }

@@ -6,15 +6,14 @@ import com.github.shafiquejamal.point.PointOfInterest
 case class CatchmentCenter(
     override val id: String,
     override val location: GPSCoordinate,
-    edgeLengthKm: Double)
-  extends PointOfInterest[String] {
+    kmEdgeLength: Double) extends PointOfInterest[String] {
   
-  def toSeq: Seq[String] = Seq(id, location.lat.value.toString, location.lng.value.toString, edgeLengthKm.toString)
+  def toSeq: Seq[String] = Seq(id, location.lat.value.toString, location.lng.value.toString, kmEdgeLength.toString)
   
   def toEmptyBoundingBox: BoundingBox = toBoundingBox(Seq())
   
   def toBoundingBox(pointsWithin: Seq[PointOfInterest[String]]):
-    BoundingBox = BoundingBox.from(location, edgeLengthKm, pointsWithin)
+    BoundingBox = BoundingBox.from(location, kmEdgeLength, pointsWithin)
   
 }
 
@@ -28,7 +27,7 @@ object CatchmentCenter {
   }
   
   def from(bb: BoundingBox, nSlicesOfEachSide: Int): Seq[CatchmentCenter] = {
-    val catchmentAreaEdgeLength = bb.edgeLengthKm / nSlicesOfEachSide
+    val catchmentAreaEdgeLength = bb.kmEdgeLength / nSlicesOfEachSide
     val portionsOfDistance = 1.to(2 * nSlicesOfEachSide - 1, 2).map(_ / (2d * nSlicesOfEachSide)).toSeq
     val positionsAlongTopAndLeftEdges = portionsOfDistance.map(portion =>
       (intermediatePoint(bb.nW, bb.nE, portion), intermediatePoint(bb.sW, bb.nW, portion)))

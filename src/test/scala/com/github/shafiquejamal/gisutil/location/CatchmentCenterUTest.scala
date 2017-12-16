@@ -5,7 +5,7 @@ import org.scalatest.{FlatSpecLike, Matchers}
 class CatchmentCenterUTest extends FlatSpecLike with Matchers {
   
   trait Fixture {
-    val newEdgeLength = 0.250 / 3
+    val newEdgeLength: Double = 0.250 / 3
     val expected = Seq(
       CatchmentCenter("39.11330139958722_-94.62842482586905", GPSCoordinate(Lat(39.11330139958722), Lng(-94.62842482586905)), newEdgeLength),
       CatchmentCenter("39.11330139958722_-94.62746000000003", GPSCoordinate(Lat(39.11330139958722), Lng(-94.62746000000003)), newEdgeLength),

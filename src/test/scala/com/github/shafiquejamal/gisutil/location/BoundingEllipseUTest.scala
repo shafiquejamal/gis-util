@@ -14,3 +14,4 @@ class BoundingEllipseUTest extends FlatSpecLike with Matchers {
   }
 
 }
+
