@@ -47,7 +47,7 @@ object BoundingBox {
   
   import Constants._
   
-  val cSVHeader: Seq[String] = Seq("id", "sWLat", "sWlng", "nWlat", "nWlng", "nElat", "nElng", "sElat", "sElng",
+  val cSVHeader: Seq[String] = Seq("id", "sWLat", "sWLng", "nWLat", "nWLng", "nELat", "nELng", "sELat", "sELng",
     "kmEdgeLength", "latitude", "longitude", "populationWithin")
   
   // Adapted from https://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
